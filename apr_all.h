@@ -1,13 +1,15 @@
+
+/* Used to "nop" __asm__ macros which are not supported by
+ * tilib
+ */
 #define __asm__(arg) 
-#include <stdarg.h>
+
 #include <apr.h>
 #include <apr_buckets.h>
 #include <apr_optional.h>
 #include <apr_allocator.h>
 #include <apr_atomic.h>
-#include <apr_cstr.h>
 #include <apr_dso.h>
-#include <apr_encode.h>
 #include <apr_env.h>
 #include <apr_errno.h>
 #include <apr_escape.h>
@@ -22,7 +24,6 @@
 #include <apr_lib.h>
 #include <apr_mmap.h>
 #include <apr_network_io.h>
-#include <apr_perms_set.h>
 #include <apr_poll.h>
 #include <apr_pools.h>
 #include <apr_portable.h>
@@ -43,6 +44,11 @@
 #include <apr_user.h>
 #include <apr_version.h>
 #include <apr_want.h>
+#ifdef APACHE24
+#include <apr_perms_set.h>
+#include <apr_cstr.h>
+#include <apr_encode.h>
+#endif
 
 
 #include <ap_config.h>
