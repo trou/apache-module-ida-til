@@ -150,3 +150,8 @@ FFFFFFFF struct apr_bucket_alloc_t;
 
 some are opaque by "design", such as `ap_conf_vector_t`, others should be added
 in the `apache_all.h` file by copy pasting.
+
+
+# Result
+
+![Before / After](img/before_after1.png)
