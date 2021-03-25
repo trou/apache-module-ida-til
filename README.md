@@ -154,4 +154,6 @@ in the `apache_all.h` file by copy pasting.
 
 # Result
 
+After loading the TIL file, and defining the module export as `module`, note
+how all the Apache related imports are now in **bold**, with their types defined:
 ![Before / After](img/before_after1.png)
