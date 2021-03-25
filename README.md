@@ -118,6 +118,8 @@ As you can see, `-C` is *difficult* to master. Here's how to read the
 * `cp gcc.cfg gcc64.cfg`
 * Update `gcc64.cfg`
 
+**Note:** the (updated) `gcc64.cfg` was provided by Igor Skochinsky from Hex-Rays, I just added the comments.
+
 #### Building TIL steps
 
 First we need to make a top level header which includes everything: `apache_all.h`.
@@ -132,7 +134,11 @@ The most important hacks are:
 * Adding `#define __asm__(arg)` to our `apache_all.h` file, to "nop" inline asm
 * Adding `-D__extension__= \` to the `tilib` call, which will "nop" the unsupported `__extension__` keyword
 * Adding `"-D__builtin_va_list=void *"` which will work around the need for the internal definition of `va_list`
+* Add `-D__UNKNOWN_ATTR__=UNKNOWN_ATTR` in `gcc64.cfg`
 
+Of course the command line options could be included in the `.cfg` file.
+
+See `make_til.sh` for the final result.
 
 #### Fixing "opaque" structures
 
@@ -154,6 +160,9 @@ in the `apache_all.h` file by copy pasting.
 
 # Result
 
-After loading the TIL file, and defining the module export as `module`, note
+
+The TIL file should be put inside `til/pc` in IDA dir to be discovered.
+
+After loading the TIL file (Shift-F11, Insert), and defining the module export as `module`, note
 how all the Apache related imports are now in **bold**, with their types defined:
 ![Before / After](img/before_after1.png)
