@@ -120,7 +120,7 @@ As you can see, `-C` is *difficult* to master. Here's how to read the
 
 #### Building TIL steps
 
-First we need to make a top level header which includes everything: `apr_all.h`.
+First we need to make a top level header which includes everything: `apache_all.h`.
 
 Then, we will preprocess it using `gcc -E` to preprocess everything and facilitate
 the ingestion by `tilib`.
@@ -129,6 +129,24 @@ Then we begin the loop of fixing errors and warnings.
 
 The most important hacks are:
 
-* Adding `#define __asm__(arg)` to our `apr_all.h` file, to "nop" inline asm
+* Adding `#define __asm__(arg)` to our `apache_all.h` file, to "nop" inline asm
 * Adding `-D__extension__= \` to the `tilib` call, which will "nop" the unsupported `__extension__` keyword
 * Adding `"-D__builtin_va_list=void *"` which will work around the need for the internal definition of `va_list`
+
+
+#### Fixing "opaque" structures
+
+Identify which structures have no "size" in the .til file:
+
+```
+$ tilib  -l apache22-debian64.til  | grep "FFFFFFFF struct"
+[...]
+FFFFFFFF struct ap_conf_vector_t;
+FFFFFFFF struct ap_filter_provider_t;
+FFFFFFFF struct apr_allocator_t;
+FFFFFFFF struct apr_bucket_alloc_t;
+[...]
+```
+
+some are opaque by "design", such as `ap_conf_vector_t`, others should be added
+in the `apache_all.h` file by copy pasting.
